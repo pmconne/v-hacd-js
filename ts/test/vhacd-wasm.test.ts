@@ -26,5 +26,6 @@ describe("test", async () => {
 
   it("heap", () => {
     expect(vhacd.HEAPU8).instanceof(Uint8Array);
+    expect(vhacd._malloc(5)).least(1);
   });
 });

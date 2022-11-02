@@ -40,8 +40,8 @@ export declare module VHACD {
     compute(points: Float64Ptr, nPoints: number, triangles: Uint32Ptr, nTriangles: number): ConvexHullList;
   }
 
-  function malloc(nBytes: number): VoidPtr;
-  function free(ptr: VoidPtr): void;
+  function _malloc(nBytes: number): VoidPtr;
+  function _free(ptr: VoidPtr): void;
   const HEAPU8: Uint8Array;
 }
 
