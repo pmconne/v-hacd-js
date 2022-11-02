@@ -28,8 +28,12 @@ export namespace ConvexHullDecomposer {
   let module;
 
   export async function create(): Promise<ConvexHullDecomposer> {
-    if (!module)
+    console.log("create");
+    if (!module) {
+      console.log("instantiating...");
       module = await instantiateModule();
+      console.log("...instantiated.");
+    }
 
     return {
       decomposeMesh: (mesh, parameters) => {
@@ -41,6 +45,5 @@ export namespace ConvexHullDecomposer {
 }
 
 console.log(instantiateModule);
-export function test(arg: string) {
-  console.log(arg);
-}
+ConvexHullDecomposer.create().then((decomposer) => console.log(decomposer));
+
