@@ -1,7 +1,7 @@
 
 import { expect } from "chai";
 import instantiateModule from "../../lib/vhacd-wasm.js";
-import { VHACD } from "../vhacd-wasm";
+import { VHACD } from "../vhacd-wasm-api.js";
 
 describe("test", async () => {
   let vhacd: typeof VHACD;

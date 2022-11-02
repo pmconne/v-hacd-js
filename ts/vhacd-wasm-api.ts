@@ -1,27 +1,27 @@
-export declare module VHACD {
-  type Float64Ptr = number;
-  type Uint32Ptr = number;
-  type VoidPtr = number;
+export namespace VHACD {
+  export type Float64Ptr = number;
+  export type Uint32Ptr = number;
+  export type VoidPtr = number;
 
-  enum FillMode {
+  export enum FillMode {
     Flood = 0,
     Surface = 1,
     Raycast = 2,
   }
 
-  interface ConvexHull {
+  export interface ConvexHull {
     getPoints(): Float64Ptr;
     numPoints: number;
     getTriangles(): Uint32Ptr;
     numTriangles: number;
   }
 
-  interface ConvexHullList {
+  export interface ConvexHullList {
     size(): number;
     get(index: number): ConvexHull;
   }
 
-  class Parameters {
+  export declare class Parameters {
     constructor();
     maxHulls: number;
     voxelResolution: number;
@@ -34,16 +34,16 @@ export declare module VHACD {
     findBestPlane: boolean;
   }
 
-  class MeshDecomposer {
+  export declare class MeshDecomposer {
     constructor(parameters: Parameters);
     dispose(): void;
     compute(points: Float64Ptr, nPoints: number, triangles: Uint32Ptr, nTriangles: number): ConvexHullList;
   }
 
-  function _malloc(nBytes: number): VoidPtr;
-  function _free(ptr: VoidPtr): void;
+  export declare function _malloc(nBytes: number): VoidPtr;
+  export declare function _free(ptr: VoidPtr): void;
 
-  const HEAPU8: Uint8Array;
-  const HEAPU32: Uint32Array;
-  const HEAPF64: Float64Array;
+  export declare const HEAPU8: Uint8Array;
+  export declare const HEAPU32: Uint32Array;
+  export declare const HEAPF64: Float64Array;
 }

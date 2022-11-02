@@ -1,6 +1,6 @@
 
 import instantiateModule from "../lib/vhacd-wasm.js";
-import { VHACD } from "./vhacd-wasm";
+import { VHACD } from "./vhacd-wasm-api.js";
 
 export type HullFillMode = "flood" | "surface" | "raycast";
 
@@ -81,9 +81,9 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
   let decomposer: VHACD.MeshDecomposer | undefined;
   try {
     pPoints = vhacd._malloc(8 * mesh.positions.length);
-    vhacd.HEAPF64.set(mesh.positions, pPoints);
+    vhacd.HEAPU8.set(mesh.positions, pPoints);
     pTriangles = vhacd._malloc(4 * mesh.indices.length);
-    vhacd.HEAPU32.set(mesh.indices, pTriangles);
+    vhacd.HEAPU8.set(mesh.indices, pTriangles);
 
     decomposer = new vhacd.MeshDecomposer(params);
     const hulls = decomposer.compute(pPoints, mesh.positions.length / 3, pTriangles, mesh.indices.length / 3);
