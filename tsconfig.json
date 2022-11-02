@@ -1,3 +1,20 @@
 {
-  "include": ["./ts/**/*.ts"]
+  "include": ["./ts/**/*.ts"],
+  "types": [
+    "emscripten"
+  ],
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "ES2019"
+  }
 }
