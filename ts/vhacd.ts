@@ -1,5 +1,5 @@
 
-import  * as wasm from "../lib/vhacd-wasm.js";
+import wasm from "../lib/vhacd-wasm.js";
 
 export type HullFillMode = "flood" | "surface" | "raycast";
 

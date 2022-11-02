@@ -11,7 +11,7 @@
     "url": "https://github.com/pmconne/v-hacd-js"
   },
   "scripts": {
-    "build:wasm": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE -s 'EXPORT_NAME=\"instantiateModule\"'",
+    "build:wasm": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE=1 -sEXPORT_ES6=1 -sUSE_ES6_IMPORT_META=0",
     "build:wasm:optimized": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE -s 'EXPORT_NAME=\"instantiateModule\"' -Oz",
     "build:ts": "tsc 1>&2 --outDir lib",
     "build": "npm run build:wasm && npm run build:ts",
