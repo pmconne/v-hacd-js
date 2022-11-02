@@ -11,10 +11,11 @@
     "url": "https://github.com/pmconne/v-hacd-js"
   },
   "scripts": {
-    "build:wasm": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE=1 -sEXPORT_ES6=1 -sUSE_ES6_IMPORT_META=0 --pre-js cpp/pre.js",
-    "build:ts": "tsc 1>&2 --outDir lib",
     "build": "npm run build:wasm && npm run build:ts",
-    "clean": "rimraf lib"
+    "build:ts": "tsc 1>&2 --outDir lib",
+    "build:wasm": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE=1 -sEXPORT_ES6=1 -sUSE_ES6_IMPORT_META=0 --pre-js cpp/pre.js",
+    "clean": "rimraf lib",
+    "test": "mocha ./lib/test"
   },
   "keywords": [
     "convex",
@@ -29,9 +30,12 @@
     "url": "https://github.com/pmconne"
   },
   "devDependencies": {
-    "@types/emscripten": "^1.39.6",
-    "typescript": "~4.4.0",
-    "rimraf": "^3.0.2"
+    "@types/chai": "4.3.1",
+    "@types/mocha": "^8.2.2",
+    "chai": "^4.1.2",
+    "mocha": "^10.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "~4.4.0"
   },
   "dependencies": {}
 }
