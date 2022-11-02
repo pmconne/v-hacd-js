@@ -55,6 +55,9 @@ public:
   }
 };
 
+void* vhacd_malloc(uint32_t size) { return malloc(size); }
+void vhacd_free(void* ptr) { free(ptr); }
+
 EMSCRIPTEN_BINDINGS(vhacdjs) {
   class_<JsHull>("ConvexHull")
     // These are functions instead of properties because properties can specify raw pointer policy.
@@ -88,6 +91,9 @@ EMSCRIPTEN_BINDINGS(vhacdjs) {
     .function("compute", &JsVHACD::Compute, allow_raw_pointers())
     .function("dispose", &JsVHACD::Dispose)
     ;
+
+  function("malloc", &vhacd_malloc, allow_raw_pointers());
+  function("free", &vhacd_free, allow_raw_pointers());
 
   register_vector<JsHull>("vector<ConvexHull");
 }
