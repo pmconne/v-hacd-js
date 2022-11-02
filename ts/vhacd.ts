@@ -1,5 +1,5 @@
 
-import wasm from "../lib/vhacd-wasm.js";
+import instantiateModule from "../lib/vhacd-wasm.js";
 
 export type HullFillMode = "flood" | "surface" | "raycast";
 
@@ -20,12 +20,27 @@ export interface Mesh {
   indices: Uint32Array;
 }
 
-export function decomposeMesh(mesh: Readonly<Mesh>, parameters?: Parameters): Mesh[] {
-  // ###TODO instantiate VHACD and compute
-  return [];
+export interface ConvexHullDecomposer {
+  decomposeMesh(mesh: Readonly<Mesh>, parameters?: Parameters): Mesh[];
 }
 
-console.log(wasm);
+export namespace ConvexHullDecomposer {
+  let module;
+
+  export async function create(): Promise<ConvexHullDecomposer> {
+    if (!module)
+      module = await instantiateModule();
+
+    return {
+      decomposeMesh: (mesh, parameters) => {
+        // ###TODO: stuff
+        return [];
+      },
+    };
+  }
+}
+
+console.log(instantiateModule);
 export function test(arg: string) {
   console.log(arg);
 }
