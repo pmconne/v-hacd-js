@@ -11,6 +11,10 @@ using namespace VHACD;
 
 using Parameters = IVHACD::Parameters;
 
+EM_JS(void, consoleLog, (const char* msg), {
+  console.log("LOG: " + UTF8ToString(msg));
+});
+
 class JsHull {
 private:
   IVHACD::ConvexHull const* m_hull;
@@ -42,13 +46,18 @@ public:
 
   std::vector<JsHull> Compute(uint32_t points, uint32_t nPoints, uint32_t triangles, uint32_t nTriangles) {
     std::vector<JsHull> hulls;
-    if (!points || !nPoints || !triangles || !nTriangles)
+    if (!points || !nPoints || !triangles || !nTriangles) {
+      consoleLog("no points");
       return hulls;
+    }
 
     if (m_vhacd->Compute(reinterpret_cast<double const*>(points), nPoints, reinterpret_cast<uint32_t const*>(triangles), nTriangles, m_parameters)) {
+      consoleLog("Compute succeeded");
       uint32_t nHulls = m_vhacd->GetNConvexHulls();
       for (uint32_t i = 0; i < nHulls; i++)
         hulls.push_back(JsHull(m_vhacd->GetConvexHull(i)));
+    } else {
+      consoleLog("Compute failed");
     }
 
     return hulls;
