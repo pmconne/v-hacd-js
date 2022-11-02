@@ -33,6 +33,8 @@ export namespace ConvexHullDecomposer {
       console.log("instantiating...");
       module = await instantiateModule();
       console.log("...instantiated.");
+      console.log(Object.keys(module));
+      console.log(Object.keys(module["vector$ConvexHull"]));
     }
 
     return {

@@ -80,7 +80,7 @@ EMSCRIPTEN_BINDINGS(vhacdjs) {
     .property("findBestPlane", &Parameters::m_findBestPlane)
     ;
 
-  class_<JsVHACD>("VHACD")
+  class_<JsVHACD>("MeshDecomposer")
     .constructor<Parameters const&>()
     .function("compute", &JsVHACD::Compute, allow_raw_pointers())
     .function("dispose", &JsVHACD::Dispose)
