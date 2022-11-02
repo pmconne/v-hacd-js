@@ -18,7 +18,7 @@ export declare module VHACD {
 
   interface ConvexHullList {
     size(): number;
-    get(index: number): ConvexHull | undefined;
+    get(index: number): ConvexHull;
   }
 
   class Parameters {
