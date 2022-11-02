@@ -42,7 +42,7 @@ export declare module VHACD {
 
   function malloc(nBytes: number): VoidPtr;
   function free(ptr: VoidPtr): void;
-  const HEAPU8: any;
+  const HEAPU8: Uint8Array;
 }
 
 export declare interface VHACD { }
