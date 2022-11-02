@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "JavaScript API for V-HACD",
   "module": "lib/vhacd.js",
+  "type": "module",
   "typings": "lib/vhacd-js",
   "license": "BSD 3-Clause License",
   "repository": {
