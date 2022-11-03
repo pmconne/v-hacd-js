@@ -27,13 +27,15 @@ public:
   uint32_t GetNumTriangles() const { return static_cast<uint32_t>(m_hull->m_triangles.size()); }
 };
 
-class JsVHACD {
+class JsVHACD : IVHACD::IUserCallback, IVHACD::IUserLogger {
 private:
   IVHACD* m_vhacd;
   Parameters m_parameters;
 public:
   JsVHACD(Parameters const& parameters) : m_vhacd(CreateVHACD()), m_parameters(parameters) {
     m_parameters.m_asyncACD = false;
+    m_parameters.m_logger = this;
+    m_parameters.m_callback = this;
   }
 
   ~JsVHACD() {
@@ -42,6 +44,15 @@ public:
 
   void Dispose() {
     delete this;
+  }
+
+  void Log(const char* msg) final {
+    consoleLog(msg);
+  }
+
+  void Update(double overallProgress, double stageProcess, const char* stage, const char* operation) final {
+    consoleLog(stage);
+    consoleLog(operation);
   }
 
   std::vector<JsHull> Compute(uint32_t points, uint32_t nPoints, uint32_t triangles, uint32_t nTriangles) {
