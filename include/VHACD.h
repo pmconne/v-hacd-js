@@ -450,8 +450,6 @@ public:
     virtual bool GetConvexHull(const uint32_t index,
                                ConvexHull& ch) const = 0;
 
-    virtual ConvexHull const* GetConvexHull(const uint32_t index) const = 0;
-
     /**
     * Releases any memory allocated by the V-HACD class
     */
@@ -6807,8 +6805,6 @@ public:
     bool GetConvexHull(const uint32_t index,
                        ConvexHull& ch) const override final;
 
-    ConvexHull const* GetConvexHull(const uint32_t index) const final;
-
     void Clean() override final;  // release internally allocated memory
 
     void Release() override final;
@@ -7017,14 +7013,6 @@ bool VHACDImpl::GetConvexHull(const uint32_t index,
     }
 
     return ret;
-}
-
-IVHACD::ConvexHull const* VHACDImpl::GetConvexHull(const uint32_t index) const
-{
-  if (index >= static_cast<uint32_t>(m_convexHulls.size()))
-    return nullptr;
-
-  return m_convexHulls[index];
 }
 
 void VHACDImpl::Clean()
