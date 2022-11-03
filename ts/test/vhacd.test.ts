@@ -1,6 +1,6 @@
 
 import { expect } from "chai";
-import { ConvexMeshDecomposition } from "../vhacd.js";
+import { ConvexMeshDecomposition, Mesh } from "../vhacd.js";
 
 describe("ConvexMeshDecomposition", async () => {
   let decomposer: ConvexMeshDecomposition;
@@ -57,22 +57,37 @@ describe("ConvexMeshDecomposition", async () => {
     ]),
   };
 
+  function expectMesh(actual: Mesh, expectedPositions: number[], expectedIndices: number[]): void {
+    expect(Array.from(actual.positions)).to.deep.equal(expectedPositions);
+    expect(Array.from(actual.indices)).to.deep.equal(expectedIndices);
+  }
+
   it("produces 1 hull for a cube", () => {
     const hulls = decomposer.computeConvexHulls(cube);
     expect(hulls.length).to.equal(1);
-
-    const hull = hulls[0];
-    expect(hull.positions.length).to.equal(3 * 8);
-    expect(hull.indices.length).to.equal(3 * 12);
-    // ###TODO verify mesh
+    expectMesh(hulls[0], [
+       1,  1,  1,  1, -1,  1,  1, -1,
+      -1, -1,  1, -1, -1, -1,  1,  1,
+       1, -1, -1,  1,  1, -1, -1, -1
+    ], [
+      0, 1, 2, 4, 1, 0, 4, 2, 1,
+      5, 0, 2, 5, 2, 3, 5, 3, 0,
+      6, 4, 0, 6, 0, 3, 6, 3, 4,
+      7, 4, 3, 7, 3, 2, 7, 2, 4
+    ]);
   });
 
   it("limits the number of vertices", () => {
     const hulls = decomposer.computeConvexHulls(cube, { maxVerticesPerHull: 6 });
     expect(hulls.length).to.equal(1);
-
-    const hull = hulls[0];
-    expect(hull.positions.length).to.equal(3 * 6);
-    expect(hull.indices.length).to.equal(3 * 8);
+    expectMesh(hulls[0], [
+       1,  1,  1,  1, -1,  1,  1,
+      -1, -1, -1,  1, -1, -1, -1,
+       1,  1,  1, -1
+    ], [
+      0, 1, 2, 4, 1, 0, 4, 0,
+      3, 4, 2, 1, 4, 3, 2, 5,
+      0, 2, 5, 2, 3, 5, 3, 0
+    ]);
   });
 }).timeout(0);
