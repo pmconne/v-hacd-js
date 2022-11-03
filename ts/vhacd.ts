@@ -123,10 +123,13 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
   let pTriangles = 0;
   let decomposer: VHACD.MeshDecomposer | undefined;
   try {
+    // Allocate everything first, in case memory grows.
     pPoints = vhacd._malloc(8 * mesh.positions.length);
-    vhacd.HEAPU8.set(mesh.positions, pPoints);
     pTriangles = vhacd._malloc(4 * mesh.indices.length);
-    vhacd.HEAPU8.set(mesh.indices, pTriangles);
+
+    // Initialize memory.
+    vhacd.HEAPF64.set(mesh.positions, pPoints / 8);
+    vhacd.HEAPU32.set(mesh.indices, pTriangles / 4);
 
     decomposer = new vhacd.MeshDecomposer(params);
     const hulls = decomposer.compute(pPoints, mesh.positions.length / 3, pTriangles, mesh.indices.length / 3);
