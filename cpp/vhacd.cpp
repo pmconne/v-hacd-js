@@ -11,6 +11,8 @@ using namespace VHACD;
 
 using Parameters = IVHACD::Parameters;
 
+static_assert(sizeof(double *) == 4, "wasm uses 32-bit pointers");
+
 EM_JS(void, consoleLog, (const char* msg), {
   console.log("LOG: " + UTF8ToString(msg));
 });
@@ -21,9 +23,9 @@ private:
 public:
   explicit JsHull(IVHACD::ConvexHull const* hull) : m_hull(hull) { }
 
-  double const* GetPoints() const { return &(m_hull->m_points[0].mX); }
+  uint32_t GetPoints() const { return reinterpret_cast<uint32_t>(&(m_hull->m_points[0].mX)); }
   uint32_t GetNumPoints() const { return static_cast<uint32_t>(m_hull->m_points.size()); }
-  uint32_t const* GetTriangles() const { return &(m_hull->m_triangles[0].mI0); }
+  uint32_t GetTriangles() const { return reinterpret_cast<uint32_t>(&(m_hull->m_triangles[0].mI0)); }
   uint32_t GetNumTriangles() const { return static_cast<uint32_t>(m_hull->m_triangles.size()); }
 };
 

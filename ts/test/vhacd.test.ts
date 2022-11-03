@@ -71,5 +71,5 @@ describe("ConvexMeshDecomposition", async () => {
 
     const hulls = decomposer.computeConvexHulls({ positions, indices });
     expect(hulls.length).to.equal(1);
-  });
+  }).timeout(0);
 });
