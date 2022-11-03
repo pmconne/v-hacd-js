@@ -9,7 +9,7 @@ describe("ConvexMeshDecomposition", async () => {
     decomposer = await ConvexMeshDecomposition.create();
   });
 
-  it("produces no hulls for a triangle", () => {
+  it("produces 1 hull for a triangle", () => {
     const positions = new Float64Array([
       0, 0, 0,
       0, 1, 0,
@@ -18,7 +18,7 @@ describe("ConvexMeshDecomposition", async () => {
 
     const indices = new Uint32Array([0, 1, 2]);
     const hulls = decomposer.computeConvexHulls({ positions, indices });
-    expect(hulls.length).to.equal(0);
+    expect(hulls.length).to.equal(1);
   });
 
   it("produces 1 hull for a cube", () => {
