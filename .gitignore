@@ -191,3 +191,10 @@ build/
 /app/x64/Debug/ZERO_CHECK
 /app/x64/Release/ZERO_CHECK
 /*.bak
+
+node_modules
+package-lock.json
+lib
+*.bak
+*.orig
+.env
