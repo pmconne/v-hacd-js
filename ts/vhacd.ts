@@ -10,6 +10,14 @@ import { VHACD } from "./vhacd-wasm-api.js";
  */
 export type HullFillMode = "flood" | "surface" | "raycast";
 
+/** Specifies what types of messages are output to the console during convex hull decomposition.
+ * "progress" outputs the stages and operations as they occur.
+ * "log" outputs warnings and informational messages.
+ * "all" outputs both "progress" and "log" messages.
+ * "none" outputs no messages.
+ */
+export type MessageType = "none" | "progress" | "log" | "all";
+
 /** Options controlling how ConvexMeshDecomposition is performed. */
 export interface Options {
   /** The maximum number of convex hulls to produce.
@@ -49,6 +57,10 @@ export interface Options {
    * Default: false.
    */
   findBestPlane?: boolean;
+  /** The types of messages to output to the console during convex hull decomposition.
+   * Default: "none".
+   */
+  messages?: MessageType;
 }
 
 /** A triangle mesh. */
@@ -119,6 +131,19 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
   if (opts)
     populateParameters(params, opts);
 
+  let messages: VHACD.MessageType = VHACD.MessageType.None;
+  switch (opts?.messages) {
+    case "all":
+      messages = VHACD.MessageType.All;
+      break;
+    case "log":
+      messages = VHACD.MessageType.Log;
+      break;
+    case "progress":
+      messages = VHACD.MessageType.Progress;
+      break;
+  }
+
   let pPoints = 0;
   let pTriangles = 0;
   let decomposer: VHACD.MeshDecomposer | undefined;
@@ -131,7 +156,7 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
     vhacd.HEAPF64.set(mesh.positions, pPoints / 8);
     vhacd.HEAPU32.set(mesh.indices, pTriangles / 4);
 
-    decomposer = new vhacd.MeshDecomposer(params);
+    decomposer = new vhacd.MeshDecomposer(params, messages);
     const hulls = decomposer.compute(pPoints, mesh.positions.length / 3, pTriangles, mesh.indices.length / 3);
 
     const meshes: Mesh[] = [];

@@ -29,15 +29,26 @@ public:
   uint32_t GetNumTriangles() const { return static_cast<uint32_t>(m_hull->m_triangles.size()); }
 };
 
+enum MessageType {
+  MessageType_None = 0,
+  MessageType_Progress = 1,
+  MessageType_Log = 2,
+  MessageType_All = MessageType_Progress | MessageType_Log,
+};
+
 class JsVHACD : IVHACD::IUserCallback, IVHACD::IUserLogger {
 private:
   IVHACD* m_vhacd;
   Parameters m_parameters;
 public:
-  JsVHACD(Parameters const& parameters) : m_vhacd(CreateVHACD()), m_parameters(parameters) {
+  JsVHACD(Parameters const& parameters, MessageType messages) : m_vhacd(CreateVHACD()), m_parameters(parameters) {
     m_parameters.m_asyncACD = false;
-    m_parameters.m_logger = this;
-    m_parameters.m_callback = this;
+
+    if (MessageType_None != (messages & MessageType_Log))
+      m_parameters.m_logger = this;
+
+    if (MessageType_None != (messages & MessageType_Progress))
+      m_parameters.m_callback = this;
   }
 
   ~JsVHACD() {
@@ -60,17 +71,13 @@ public:
   std::vector<JsHull> Compute(uint32_t points, uint32_t nPoints, uint32_t triangles, uint32_t nTriangles) {
     std::vector<JsHull> hulls;
     if (!points || !nPoints || !triangles || !nTriangles) {
-      consoleLog("no points");
       return hulls;
     }
 
     if (m_vhacd->Compute(reinterpret_cast<double const*>(points), nPoints, reinterpret_cast<uint32_t const*>(triangles), nTriangles, m_parameters)) {
-      consoleLog("Compute succeeded");
       uint32_t nHulls = m_vhacd->GetNConvexHulls();
       for (uint32_t i = 0; i < nHulls; i++)
         hulls.push_back(JsHull(m_vhacd->GetConvexHull(i)));
-    } else {
-      consoleLog("Compute failed");
     }
 
     return hulls;
@@ -92,6 +99,13 @@ EMSCRIPTEN_BINDINGS(vhacdjs) {
     .value("Raycast", FillMode::RAYCAST_FILL)
     ;
 
+  enum_<MessageType>("MessageType")
+    .value("None", MessageType_None)
+    .value("All", MessageType_All)
+    .value("Log", MessageType_Log)
+    .value("Progress", MessageType_Progress)
+    ;
+
   class_<Parameters>("Parameters")
     .constructor()
     .property("maxHulls", &Parameters::m_maxConvexHulls)
@@ -106,7 +120,7 @@ EMSCRIPTEN_BINDINGS(vhacdjs) {
     ;
 
   class_<JsVHACD>("MeshDecomposer")
-    .constructor<Parameters const&>()
+    .constructor<Parameters const&, MessageType>()
     .function("compute", &JsVHACD::Compute, allow_raw_pointers())
     .function("dispose", &JsVHACD::Dispose)
     ;

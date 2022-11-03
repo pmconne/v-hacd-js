@@ -18,7 +18,7 @@ describe("test", async () => {
 
   it("vector", () => {
     const params = new vhacd.Parameters();
-    const decomposer = new vhacd.MeshDecomposer(params);
+    const decomposer = new vhacd.MeshDecomposer(params, VHACD.MessageType.All);
     const hulls = decomposer.compute(0, 0, 0, 0);
     expect(hulls.size()).to.equal(0);
     expect(hulls.get(1)).to.be.undefined;

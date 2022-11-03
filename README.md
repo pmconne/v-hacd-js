@@ -3,11 +3,13 @@ A dead-simple wrapper API for [V-HACD](https://github.com/kmammou/v-hacd) to dec
 Usage:
 
 ```ts
-import { ConvexMeshDecomposition } from "vhacd";
+import { ConvexMeshDecomposition } from "v-hacd-js";
 // Create a mesh decomposer. It can be used to decompose as many meshes as you like.
 const decomposer = await ConvexMeshDecomposition.create();
 // Optionally configure how the decomposition is performed.
 const options = { maxHulls: 32 };
-// Produce an array of convex hulls.
+// Produce an array of convex hulls from a mesh.
 const hulls = decomposer.computeConvexHulls({ positions, indices }, options);
 ```
+
+See vhacd.ts for full JavaScript API.
