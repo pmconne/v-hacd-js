@@ -163,9 +163,11 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
     const nHulls = hulls.size();
     for (let i = 0; i < nHulls; i++) {
       const hull = hulls.get(i);
+      const pts = hull.getPoints() / 8;
+      const tris = hull.getTriangles() / 4;
       meshes.push({
-        positions: vhacd.HEAPF64.slice(hull.getPoints(), hull.numPoints * 3),
-        indices: vhacd.HEAPU32.slice(hull.getTriangles(), hull.numTriangles * 3),
+        positions: vhacd.HEAPF64.slice(pts, pts + hull.numPoints * 3),
+        indices: vhacd.HEAPU32.slice(tris, tris + hull.numTriangles * 3),
       });
     }
 
