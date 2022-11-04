@@ -5,7 +5,7 @@
   "module": "./lib/vhacd.js",
   "type": "module",
   "types": "./lib/vhacd.d.ts",
-  "license": "BSD 3-Clause License",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/pmconne/v-hacd-js"
