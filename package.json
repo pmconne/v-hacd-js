@@ -1,10 +1,10 @@
 {
   "name": "vhacd-js",
   "version": "0.0.1",
-  "description": "JavaScript API for V-HACD",
-  "module": "lib/vhacd.js",
+  "description": "Voxelized hierarchical approximate convex mesh decomposition",
+  "module": "./lib/vhacd.js",
   "type": "module",
-  "typings": "lib/vhacd-js",
+  "types": "./lib/vhacd.d.ts",
   "license": "BSD 3-Clause License",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run build:wasm && npm run build:ts",
     "build:optimized": "npm run build:wasm:optimized && npm run build:ts",
-    "build:ts": "tsc 1>&2 --outDir lib",
+    "build:ts": "tsc 1>&2",
     "build:wasm": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE=1 -sEXPORT_ES6=1 -sUSE_ES6_IMPORT_META=0 --pre-js cpp/pre.js",
     "build:wasm:optimized": "mkdir -p lib && emcc -lembind -o lib/vhacd-wasm.js -sALLOW_MEMORY_GROWTH -sSINGLE_FILE=1 cpp/vhacd.cpp -sMODULARIZE=1 -sEXPORT_ES6=1 -sUSE_ES6_IMPORT_META=0 --pre-js cpp/pre.js -Oz",
     "clean": "rimraf lib",

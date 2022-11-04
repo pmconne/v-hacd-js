@@ -1,8 +1,5 @@
 {
   "include": ["./ts/**/*.ts"],
-  "types": [
-    "emscripten"
-  ],
   "compilerOptions": {
     "alwaysStrict": true,
     "declaration": true,
@@ -12,6 +9,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "outDir": "lib",
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
