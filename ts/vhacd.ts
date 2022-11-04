@@ -124,7 +124,10 @@ function computeConvexHulls(vhacd: typeof VHACD, mesh: Mesh, opts?: Options): Me
   if (mesh.positions.length < 9 || mesh.indices.length < 3)
     return [];
 
-  if (mesh.positions.length % 9 !== 0 || mesh.indices.length % 3 !== 0)
+  if (mesh.positions.length % 3 !== 0)
+    throw new Error("3 coordinates required per vertex");
+
+  if (mesh.indices.length % 3 !== 0)
     throw new Error("Triangles required.");
 
   const params = new vhacd.Parameters();

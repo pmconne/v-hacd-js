@@ -1,1 +1,3 @@
 Turn on noImplicitAny - need types for import of vhacd-wasm.js
+"vhacd" => "v-hacd"
+Make input types more generic - e.g., accept number[] for mesh indices in addition to Uint32Array?
