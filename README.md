@@ -3,7 +3,7 @@ A dead-simple wrapper API for [V-HACD](https://github.com/kmammou/v-hacd) to dec
 Usage:
 
 ```ts
-import { ConvexMeshDecomposition } from "v-hacd-js";
+import { ConvexMeshDecomposition } from "vhacd-js";
 // Create a mesh decomposer. It can be used to decompose as many meshes as you like.
 const decomposer = await ConvexMeshDecomposition.create();
 // Optionally configure how the decomposition is performed.
